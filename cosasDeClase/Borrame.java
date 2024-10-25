@@ -38,6 +38,8 @@ public class Borrame {
             repeticionTerminaciones[digitoTermina]++;
         }
 
+        System.out.println("holaa");
+
         return repeticionTerminaciones;
     }
 
