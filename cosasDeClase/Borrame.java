@@ -9,14 +9,24 @@ public class Borrame {
 
 
     public static void main(String[] args) {
-        int[] numAleatorios = new int[TAMANO];
-        rellenaAleatorios(numAleatorios);
+        int[][] matriz = new int[5][6];
+        int[][] matriz2 = new int[5][5];
 
-        int[] conteoTerminaciones = contarTerminaciones(numAleatorios);
+        System.out.println(esMatrizCuadrada(matriz));
+        System.out.println(esMatrizCuadrada(matriz2));
 
-        numeroTerminacionMax(conteoTerminaciones);
+    }
 
+    public static boolean esMatrizCuadrada(int[][] matriz) {
+        int filas = matriz.length;
 
+        for (int i = 0; i < matriz.length; i++) {
+            if (filas != matriz[i].length){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
