@@ -30,7 +30,10 @@ public class Ejercicio16 {
 
         for (int k = i - 1; k <= i + 1; k++) {
             for (int l = j - 1; l <= j + 1; l++) {
-                if (k >= 0 && k < matrizNumeros.length && l >= 0 && l < matrizNumeros[0].length) {
+                if (k >= 0 && k < matrizNumeros.length
+                        && l >= 0 && l < matrizNumeros[0].length
+                        && !(k == i && l == j)) {
+                    
                     if (matrizNumeros[k][l] % 2 == 0) {
                         numeroPares++;
                     }
