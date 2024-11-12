@@ -33,7 +33,7 @@ public class Ejercicio16 {
                 if (k >= 0 && k < matrizNumeros.length
                         && l >= 0 && l < matrizNumeros[0].length
                         && !(k == i && l == j)) {
-                    
+
                     if (matrizNumeros[k][l] % 2 == 0) {
                         numeroPares++;
                     }
