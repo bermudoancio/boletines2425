@@ -40,7 +40,7 @@ public class Jardin {
     }
 
     private static boolean comprobarSiFlorece(int i, int j) {
-        return hayAgua(i, j) && hayAbeja(i, j) && (!hayMalaHierba(i, j) || (hayMalaHierba(i, j) && hayGusano(i, j)));
+        return hayAgua(i, j) && hayAbeja(i, j) && (!hayMalaHierba(i, j) || hayGusano(i, j));
     }
 
     private static boolean hayAgua(int i, int j){
