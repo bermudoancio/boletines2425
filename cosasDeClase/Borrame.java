@@ -9,11 +9,13 @@ public class Borrame {
 
 
     public static void main(String[] args) {
-        int[][] matriz = new int[5][6];
+        /*int[][] matriz = new int[5][6];
         int[][] matriz2 = new int[5][5];
 
         System.out.println(esMatrizCuadrada(matriz));
-        System.out.println(esMatrizCuadrada(matriz2));
+        System.out.println(esMatrizCuadrada(matriz2));*/
+        blabla();
+        String[] a = {"a", "b"};
 
     }
 
@@ -76,6 +78,13 @@ public class Borrame {
             }
         }
 
+    }
+
+    public static void blabla(){
+        String a = "hola";
+        String b = new String("hola");
+
+        System.out.println(a == b);
     }
 
 
