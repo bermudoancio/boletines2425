@@ -34,6 +34,9 @@ public class PrincipalMaquina {
                                 System.out.printf("Recoja su cambio (%.2f)€\n", cambio);
                             }
                         }
+                        else {
+                            System.out.println("No puedo servir este producto ahora mismo. Disculpe.");
+                        }
                         break;
                     case Maquina.OPCION_ESTADO:
                         System.out.println(m1);
