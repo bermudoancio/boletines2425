@@ -71,14 +71,6 @@ public class Maquina {
         return cad;
     }
 
-    public String mostrarMenu() {
-        return "Café solo (" + PRECIO_CAFE + " €)"
-                + "Leche (" + PRECIO_LECHE + " €)"
-                + "Café con leche (" + PRECIO_CAFE_LECHE + " €)"
-                + "Conocer estado de la máquina"
-                + "Apagar máquina y salir";
-    }
-
     public void servirProducto(int opcion) {
         double precioProducto = 0;
 

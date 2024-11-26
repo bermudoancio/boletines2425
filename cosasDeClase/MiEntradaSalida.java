@@ -66,7 +66,7 @@ public class MiEntradaSalida {
 
 		while(flag) {
 			// Pedimos el entero por pantalla.
-			System.out.println(mensaje);
+			System.out.print(mensaje + ": ");
 			// Comprobamos si el usuario está introduciendo algo correcto usando la excepción del método parseInt.
 			try {
 				numero = Double.parseDouble(sc.nextLine());
@@ -93,7 +93,7 @@ public class MiEntradaSalida {
 
 		while(flag) {
 			// Pedimos el entero por pantalla.
-			System.out.println(mensaje);
+			System.out.print(mensaje + ": ");
 			// Comprobamos si el usuario está introduciendo algo correcto usando la excepción del método parseInt.
 			try {
 				integer = Integer.parseInt(sc.nextLine());
@@ -120,7 +120,7 @@ public class MiEntradaSalida {
 
 		while(flag) {
 			// Pedimos el entero por pantalla.
-			System.out.println(mensaje);
+			System.out.print(mensaje + ": ");
 			// Comprobamos si el usuario está introduciendo algo correcto usando la excepción del método parseInt.
 			try {
 				c = sc.nextLine().charAt(0);

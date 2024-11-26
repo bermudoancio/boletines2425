@@ -1,21 +1,25 @@
 package boletin_objetos_1;
-import java.util.Scanner;
+
+import cosasDeClase.MiEntradaSalida;
 
 public class PrincipalMaquina {
 
-    private static Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
-        try {
-            Maquina m1 = new Maquina(-1, 2, 1);
 
+        Maquina m1 = new Maquina();
 
-            int opcion;
+        int opcion = 0;
 
-            do {
-                System.out.println(m1.mostrarMenu());
-                System.out.print("Seleccione una opción: ");
-                opcion = Integer.parseInt(sc.nextLine());
+        do {
+            try {
+                System.out.println("-------------------------------");
+                System.out.println("Bienvenido a mi máquina de café");
+                opcion = MiEntradaSalida.seleccionaOpcion("Seleccione una opción",
+                        new String[]{"Café solo (" + Maquina.PRECIO_CAFE + " €)"
+                                , "Leche (" + Maquina.PRECIO_LECHE + " €)"
+                                , "Café con leche (" + Maquina.PRECIO_CAFE_LECHE + " €)"
+                                , "Conocer estado de la máquina"
+                                , "Apagar máquina y salir"});
 
                 // Guardamos el dinero introducido por el cliente
                 double dineroIntroducido = 0;
@@ -25,7 +29,10 @@ public class PrincipalMaquina {
                     case Maquina.OPCION_LECHE:
                     case Maquina.OPCION_CAFE_LECHE:
                         if (controlaExistencia(m1, opcion)) {
-                            procesaOpcion(m1, opcion);
+                            double cambio = procesaOpcion(m1, opcion);
+                            if (cambio > 0) {
+                                System.out.printf("Recoja su cambio (%.2f)€\n", cambio);
+                            }
                         }
                         break;
                     case Maquina.OPCION_ESTADO:
@@ -33,50 +40,30 @@ public class PrincipalMaquina {
                         break;
                     case Maquina.OPCION_APAGAR:
                         break;
-                    default:
-                        System.out.println("Opci�n no v�lida");
                 }
-
-            } while (opcion != Maquina.OPCION_APAGAR);
-        }
-        catch (ParametroNoValidoException ex) {
-            System.out.println(ex.getMessage());
-        }
+            } catch (ParametroNoValidoException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } while (opcion != Maquina.OPCION_APAGAR);
 
 
     }
 
-    public static double controlarDinero(int opcion) {
-        // Comprobamos el dinero introducido
-        double dineroIntroducido = 0;
+    public static double pedirDinero(Maquina m1, int opcion) throws ParametroNoValidoException {
+        double dineroIntroducido = MiEntradaSalida.solicitarDoublePositivo("Introduce el dinero");
 
-        while (dineroIntroducido < getPrecioOpcion(opcion)) {
-            if (dineroIntroducido > 0) {
-                System.out.printf("Ha introducido %f �\n", dineroIntroducido);
-            }
-            dineroIntroducido += pedirDinero(opcion);
+        if (dineroIntroducido < getPrecioOpcion(opcion)) {
+            throw new ParametroNoValidoException("No has introducido suficiente");
+        }
+
+        if (dineroIntroducido - getPrecioOpcion(opcion) > m1.getMonedero()) {
+            throw new ParametroNoValidoException("Lo siento pero no tengo cambio suficiente");
         }
 
         return dineroIntroducido;
     }
 
-    public static double pedirDinero(int opcion) {
-        switch (opcion) {
-            case Maquina.OPCION_CAFE:
-                System.out.print("Introduce " + Maquina.PRECIO_CAFE + "�");
-                break;
-            case Maquina.OPCION_LECHE:
-                System.out.print("Introduce " + Maquina.PRECIO_LECHE + "�");
-                break;
-            case Maquina.OPCION_CAFE_LECHE:
-                System.out.print("Introduce " + Maquina.PRECIO_CAFE_LECHE + "�");
-                break;
-        }
-
-        return Double.parseDouble(sc.nextLine());
-    }
-
-    public static double getPrecioOpcion  (int opcion) {
+    public static double getPrecioOpcion(int opcion) {
         double precioProducto = 0;
 
         switch (opcion) {
@@ -92,24 +79,29 @@ public class PrincipalMaquina {
         }
 
         return precioProducto;
+
+        /*
+        return switch (opcion) {
+            case Maquina.OPCION_CAFE -> Maquina.PRECIO_CAFE;
+            case Maquina.OPCION_LECHE -> Maquina.PRECIO_LECHE;
+            case Maquina.OPCION_CAFE_LECHE -> Maquina.PRECIO_CAFE_LECHE;
+            default -> 0;
+        };
+         */
     }
 
     /**
-     *
-     * @param m el objeto que representa la m�quina
+     * @param m      el objeto que representa la m�quina
      * @param opcion la opci�n seleccionada
      * @return el cambio a devolver
      */
-    public static double procesaOpcion(Maquina m, int opcion) {
-        double dineroIntroducido = controlarDinero(opcion);
+    public static double procesaOpcion(Maquina m, int opcion) throws ParametroNoValidoException {
+        double dineroIntroducido = pedirDinero(m, opcion);
 
         double cambioADevolver = dineroIntroducido - getPrecioOpcion(opcion);
-        if (m.getMonedero() < cambioADevolver) {
-            System.out.println("No puedo servir porque no tengo cambio");
-        }
-        else {
-            m.servirProducto(opcion);
-        }
+
+        m.servirProducto(opcion);
+        System.out.println("Recoja su producto");
 
         return cambioADevolver;
     }
@@ -127,6 +119,15 @@ public class PrincipalMaquina {
                 hayExistencias = m.getVasosRestantes() > 0 && m.getDosisLeche() > 0 && m.getDosisCafes() > 0;
                 break;
         }
+
+        /*
+        boolean hayExistencias = switch (opcion) {
+            case Maquina.OPCION_CAFE -> m.getVasosRestantes() > 0 && m.getDosisCafes() > 0;
+            case Maquina.OPCION_LECHE -> m.getVasosRestantes() > 0 && m.getDosisLeche() > 0;
+            case Maquina.OPCION_CAFE_LECHE ->
+                    m.getVasosRestantes() > 0 && m.getDosisLeche() > 0 && m.getDosisCafes() > 0;
+            default -> false;
+         */
 
         return hayExistencias;
     }
